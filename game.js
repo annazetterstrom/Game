@@ -25,16 +25,17 @@ let div = document.getElementById("gameover")
 div.style.transition = "all 0.2s";
 
 
-start.addEventListener("click", reloadGame);
+start.addEventListener("click", reloadGame); // Button that reloads the game
 
+// Reloads game 
 function reloadGame(){
    document.location.reload();
 }
-
+ // Div that comes down when you lose
 function gameOver(){
   div.style.top = "100px";
 }
-
+// Gives a random color to the ball and makes sure it doesnt return the same color twice
 function colorRandom (){
   let tempcolor = color;
   while(tempcolor == color){
@@ -55,7 +56,7 @@ for(let c=0; c<brickColumnCount; c++) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
-
+// Checks the keys that you press during the game 
 function keyDownHandler(e) {
   if(e.keyCode == 39) {
     rightPressed = true;
@@ -72,12 +73,14 @@ function keyUpHandler(e) {
     leftPressed = false;
   }
 }
+// Adds the mouse to the paddle 
 function mouseMoveHandler(e) {
     let relativeX = e.clientX - canvas.offsetLeft;
     if(relativeX > 0 && relativeX < canvas.width) {
       paddleX = relativeX - paddleWidth/2;
     }
   }
+// 
 function collisionDetection() {
     for(let c=0; c<brickColumnCount; c++) {
       for(let r=0; r<brickRowCount; r++) {
@@ -87,10 +90,10 @@ function collisionDetection() {
             dy = -dy;
             b.status = 0;
             score++;
-            colorRandom(); 
+            colorRandom(); // When the ball hits the wall or ricks it chnges color
             if(score == brickRowCount*brickColumnCount) {
               clearInterval(myInterval); // Needed for Chrome to end game
-              alert("YOU WIN, CONGRATS!");
+              alert("YOU WIN, CONGRATS!"); 
               document.location.reload();
             }
           }
@@ -98,7 +101,7 @@ function collisionDetection() {
       }
     }
   }
-
+// Draws the ball on the canvas
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -106,6 +109,7 @@ function drawBall() {
   ctx.fill();
   ctx.closePath();
 }
+//Draws the paddle on the canvas
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
@@ -113,6 +117,7 @@ function drawPaddle() {
   ctx.fill();
   ctx.closePath();
 }
+// Draws the bricks on the canvas
 function drawBricks() {
   for(let c=0; c<brickColumnCount; c++) {
     for(let r=0; r<brickRowCount; r++) {
@@ -130,7 +135,7 @@ function drawBricks() {
     }
   }
 }
-
+// Draws teh score on the canvas
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#000000";
